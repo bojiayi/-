@@ -1,0 +1,104 @@
+#include<stdio.h>
+#include<math.h>
+#include<iostream>
+#include<stdlib.h>
+#include<iostream>
+using namespace std;
+int map[100][100]={0};///map[i][j]为0表示i, j两点之间不通，为1表示有一条路
+int lj[120],v[100]={0},top=0,m,n,lujing[120],h=0;//lj是路径中的包含什么点
+void dfs(int b)
+{
+	int i;
+	if(b==n-1)//即一条路径寻找结束，将此路径输出
+	{
+		printf("[");
+		for(i=0;i<top;i++)
+		{
+			
+			printf("%d,",lj[i]);
+		}
+		printf("%d",n-1);
+		printf("]");
+		//b=0;
+		h=1;
+		return;//返回上层函数，寻找其他路径
+	}
+	
+	v[b]=1;//标记被访问过 
+	lj[top++]=b;
+	for(i=0;i<=n-1;i++)
+	{
+		if(!v[i]&&map[b][i])//在图里有路径但是没有被访问过
+		{
+			//cout<<"ggg";
+			dfs(i);
+		}
+	}
+	v[b]=0;//删除标记 
+	top--;
+}
+
+int main()
+{
+	while(1)
+	{
+        char x;
+		cout<<"\n\n\n\n\n\n";
+	    cout<<"\t\t*************************************************\n\t\t*\t\t\t\t\t\t*\n";
+		cout<<"\t\t*\t输出有向图中某两个结点间所有可能路径\t*\n";
+		cout<<"\t\t*\t1.进入程序\t\t\t\t*\n";
+		cout<<"\t\t*\t2.退出程序\t\t\t\t*\n\t\t*\t\t\t\t\t\t*\n";
+		cout<<"\t\t*************************************************\n";
+        cin>>x;
+        if(x=='1')
+		{
+			cout<<"\t\t*          按照有向图的路径输入各个结点           *\t\t\n";
+			cout<<"\t\t*       (分别输入0,1...n-1指向的下一个结点)       *\t\t\n";
+			cout<<"\t\t*             输入格式为[[],[],[]...]             *\t\t\n";
+			cout<<"\t\t*            如果为空则是没有下一个结点,          *\t\t\n";
+			cout<<"\t\t*            结点的数量会在范围[2,15]内           *\t\t\n";
+			int i=0;
+			scanf("[");
+	while(1)
+	{
+		char x,y;
+		x=getchar();
+		if(x==']')
+		{
+			i++;
+			y=getchar();
+			if(y==']')
+				break;
+			else
+				continue;
+		}
+		else if(x==',')
+			continue;
+		else if(x=='[')
+		{
+			continue;
+		}
+		else 
+		{
+			map[i][x-48]=1;
+			
+		}
+	}
+	n=i;
+	cout<<endl<<endl<<"路径输出为："<<endl;
+	cout<<"[";
+    dfs(0);
+	if(!h)
+	{
+		printf("无");
+	}
+	cout<<"]";
+		}
+	else if(x=='2')
+        break;
+    else{
+          cout<<"输入错误，请重新输入";
+        }
+	}
+    return 0;
+}
